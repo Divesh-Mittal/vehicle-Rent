@@ -5,7 +5,7 @@ const vehicleSchema= new Schema({
         type:Number,
     },
     vehicleType:{
-        type:string,
+        type:String,
         required:true
     },
     Hours:{
@@ -22,12 +22,12 @@ const vehicleSchema= new Schema({
     },
 
     Availabilty:{
-        type:string,
+        type:String,
         required:true,
         lowercase:true
     },
     refreshToken:{
-        type:string
+        type:String
     }
 
 },{timestamps:true})
