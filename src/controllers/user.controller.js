@@ -5,7 +5,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 const registerUser=asyncHandler(async(req,res)=>{
 
     //handling the inputs
-    const {username, password, email,fullname}=req.body;
+    const {password, email,fullname}=req.body;
     // console.log(req.body);
     // console.log("email:",email);
     // console.log("fullname:",fullname);
@@ -13,7 +13,7 @@ const registerUser=asyncHandler(async(req,res)=>{
     // console.log("password:",password);
 
     //validating the inputs if they are somehow null or empty
-    if([username,password,email,fullname].some(fields=>fields?.trim()==="")){
+    if([password,email,fullname].some(fields=>fields?.trim()==="")){
         throw new ApiError(400,"ALl Fields are required");
     }
     
@@ -21,11 +21,11 @@ const registerUser=asyncHandler(async(req,res)=>{
     
 //     //validating if the user already exist
    const existedUser= await User.findOne({
-        $or:[{username},{email}]
+        $or:[{email}]
     })
     
     if(existedUser){
-        throw new ApiError(409,"User with the email or username alraedy exist");
+        throw new ApiError(409,"User with the email alraedy exist");
     }
    
     //after validating regsitring the user into our database
@@ -33,7 +33,7 @@ const registerUser=asyncHandler(async(req,res)=>{
         fullname,
         email,
         password,
-        username:username.toLowerCase()
+        // username:username.toLowerCase()
     })
     const createduser= await User.findById(user._id).select(
         "-password -refreshToken"
