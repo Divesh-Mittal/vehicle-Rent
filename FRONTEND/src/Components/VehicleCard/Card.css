@@ -1,0 +1,73 @@
+.card{
+    width: 31.5%;
+    height: 450px;
+    margin-inline: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    
+    font-size: 1.2rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    border-radius: 8px;
+    text-align: center;
+
+}
+
+.vehicle-image{
+    width: 100%;
+    height: 70%;
+    background-color: gainsboro;
+
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+}
+
+p{
+    height: 100%;
+}
+
+.vehicle-info{
+    width: 100%;
+    margin-block:2.5%;
+    height: 20%;
+}
+
+.vehicle-name,.vehicle-location,.vehicle-price{
+    width: 100%;
+    height: 32%;
+}
+
+.card button{
+    margin: 0;
+    width: 100%;
+    height: 15%;
+    font-size: 1.2rem;
+    background-color: rgba(83, 232, 83, 0.78);
+
+    border-radius: 0;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border: 0;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width:1250px) {
+    .card{
+        width: max(30%,300px);
+    }
+}
+
+@media screen and (max-width:1060px) {
+    .card{
+        width: max(47%,300px);
+    }
+}
+
+@media screen and (max-width:650px) {
+    .card{
+        width: 100%;
+    }
+}
