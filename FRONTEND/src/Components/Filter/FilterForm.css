@@ -1,0 +1,40 @@
+.filter-form{
+    background-color: white;
+    /* padding-bottom: 10px; */
+    /* border-radius: 10px; */
+}
+.fuel-type,.vehicle-type,.price-type{
+    width:135px;
+    height: 110px;
+    padding: 5px;
+}
+.filter-form h3{
+    margin: 0;
+}
+.filter-form ul{
+    padding: 0;
+    margin: 5px 15px;
+
+    list-style: none;
+}
+.filter-form li{
+    display: inline-block;
+}
+.filter-form input[type='checkbox']{
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    margin-right: 10px;
+}
+.filter-form label{
+    position: relative;
+    top:-2px;
+
+    font-size: 1.2rem;
+}
+.apply-filter-btn{
+    width: 122px;
+    height: 40px;
+
+    font-size: 1.2rem;
+}

@@ -1,0 +1,18 @@
+.name{
+    width: 350px;
+    height: 45px;
+    margin-block: 12px;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+/* input{
+    margin: 0;
+    width: 337px;
+    height: 100%;
+    padding-inline: 5px;
+
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+
+    font-size: 1rem;
+} */

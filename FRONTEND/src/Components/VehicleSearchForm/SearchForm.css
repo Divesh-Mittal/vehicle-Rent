@@ -1,0 +1,64 @@
+.search-form{
+    width: 98%;
+    height: fit-content;
+    margin: 10px auto ;
+}
+
+.search-form form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 0.2em;
+}
+
+.location{
+    margin: 2.5px;
+    width: 25%;
+}
+
+
+.pickup-date,.pickup-time,.drop-date,.drop-time{
+    margin: 2.5px;
+    width: 12%;
+}
+
+.search-form button{
+    width: 14%;
+    height: 42px;
+    margin-bottom:2.5px;
+
+    align-self: flex-end;
+}
+
+@media screen and (max-width:1200px) {
+    .search-form,.search-form button{
+        width: 100%;
+    }
+    .pickup-date,.pickup-time,.drop-date,.drop-time{
+        width: 16%;
+    }
+    .search-form button{
+        margin:10px 2.5px;
+    }
+}
+
+@media screen and (max-width: 920px){
+    .search-form,.location,.search-form button{
+        width: 100%;
+    }
+    .pickup-date,.pickup-time,.drop-date,.drop-time{
+        width: 22%;
+    }
+}
+
+@media screen and (max-width: 660px){
+    .pickup-date,.pickup-time,.drop-date,.drop-time{
+        width: 46%;
+    }
+}
+
+@media screen and (max-width:300px){
+    .pickup-date,.pickup-time,.drop-date,.drop-time{
+        width: 100%;
+    }
+}
