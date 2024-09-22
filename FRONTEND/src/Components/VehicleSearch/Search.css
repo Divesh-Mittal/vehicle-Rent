@@ -1,0 +1,129 @@
+.search{
+    width: 98%;
+    height: 90%;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.search-filter-result{
+    width: 100%;
+    margin: auto;
+    margin-top: 10px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-filter{
+    width: 12%;
+    height: fit-content;
+}
+
+.result-card{
+    width: 85%;
+    height: 75vh;
+    overflow-y: scroll;
+    
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 1.5em;
+
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.result-card h2{
+    margin-inline: auto;
+    margin-top: 30px;
+}
+
+@media screen and (max-width:1250px) {
+    .search-filter-result{
+        flex-direction: column;
+    }
+    .search-filter{
+        width: 95%;
+        height: 40px;
+        margin-bottom: 10px;
+        margin-left:3px;
+        z-index: 2;
+    }
+    .result-card{
+        overflow-y: visible;
+        width: 100%;
+        z-index: 1;
+    }
+}
+
+@media screen and (max-width:1060px) {
+    .search{
+        width: 90%;
+    }
+    .result-card{
+        width: 80%;
+    }
+    .search-filter-result{
+        flex-direction: row;
+    }
+    .search-filter{
+        width: 15%;
+    }
+}
+
+@media screen and (max-width:960px){
+    .search{
+        width: 99%;
+    }
+}
+
+@media screen and (max-width:870px){
+    .search-filter-result{
+        flex-direction: column;
+    }
+    .result-card{
+        width: max(85%,625px);
+        margin: auto;
+    }
+    .search-filter{
+        width: max(83.5%,615px);
+        margin-inline: auto;
+        margin-bottom: 10px;
+        height: 40px;
+    }
+}
+
+@media screen and (max-width:650px){
+    .search{
+        width: 80%;
+    }
+    .result-card{
+        width: 330px;
+        margin: auto;
+    }
+    .search-filter{
+        width: 320px;
+        margin-bottom: 10px;
+    }
+    
+}
+
+@media screen and (max-width:440px){
+    .search{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:360px){
+    .search-filter-result{
+        margin: 0;
+    }
+    .search-filter{
+        width: 97%;
+    }
+    .result-card{
+        width: 100%;
+        margin: 0;
+    }
+}
