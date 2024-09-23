@@ -6,11 +6,6 @@ const registerUser=asyncHandler(async(req,res)=>{
 
     //handling the inputs
     const {password, email,name}=req.body;
-    // console.log(req.body);
-    // console.log("email:",email);
-    // console.log("fullname:",fullname);
-    // console.log("username:",username);
-    // console.log("password:",password);
 
     //validating the inputs if they are somehow null or empty
     if([password,email,name].some(fields=>fields?.trim()==="")){

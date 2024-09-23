@@ -23,7 +23,7 @@ import vehicleRouter from "./routes/vehicle.routes.js"
 
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/vehicles",vehicleRouter)
-// userRouter("/register",registerUser)
+
 export {app}
 
 // console.log(process.env.CORS_ORIGIN);
