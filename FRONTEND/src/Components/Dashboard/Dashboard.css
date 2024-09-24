@@ -1,0 +1,47 @@
+.dashboard{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sidebar{
+    width: 20%;
+}
+
+.content{
+    width: 80%;
+    height: 100%;
+    background-color: rgba(239, 242, 244, 0.7);
+}
+
+.table{
+    width: 75%;
+    height: 85%;
+    margin: 50px auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    overflow-y:scroll;
+}
+
+.heading{
+    width: 100%;
+    height: 40px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    background-color: white;
+    color:rgba(85, 84, 84, 0.995);
+}
+.heading div{
+    background-color: rgb(211, 211, 211);
+    border-radius: 4px;
+}
+
+@media screen and (max-width:980px) {
+    .table{
+        width: 90%;
+    }
+}

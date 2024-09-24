@@ -1,8 +1,7 @@
 import {useState,useEffect} from 'react';
 import './LoginSignupForm.css';
-import Email from './Email';
+import Text from '../FormElements/Text';
 import Password from './Password';
-import Name from './Name';
 
 function LoginSignupForm(props){
     const [login,setLogin] = useState(true);
@@ -63,8 +62,8 @@ function LoginSignupForm(props){
 
 
     const inputChangeHandler = (identifier,value)=>{
-        if(identifier === 'Email') setEmail(value);
-        else if(identifier === 'Name') setName(value);
+        if(identifier === 'email') setEmail(value);
+        else if(identifier === 'name') setName(value);
         else setPassword(value);
 
         if(error === true) setError(false);
@@ -84,24 +83,26 @@ function LoginSignupForm(props){
                 <div className = 'credentials'>
                     { 
                     !login && 
-                        <Name
+                        <Text
                             id = 'name'
                             key = 'name'
                             name = 'name'
                             data = {name}
                             label = 'Name'
                             className = 'signup-name'
-                            onNameChange = {inputChangeHandler}
+                            inputType = 'text'
+                            onInputChange = {inputChangeHandler}
                         />
                     }
-                    <Email 
+                    <Text
                         id = 'email'
                         key = 'email'
                         name = 'email'
                         data = {email}
                         label = 'Email'
+                        inputType = 'text'
                         className = 'login-signup-email'
-                        onEmailChange = {inputChangeHandler}
+                        onInputChange = {inputChangeHandler}
                     />
                     <Password
                         id = 'password'

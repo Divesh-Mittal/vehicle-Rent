@@ -1,0 +1,30 @@
+.rent{
+    width: 350px;
+    height: fit-content;
+    margin: 100px auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.rent label,br{
+    display: none;
+}
+
+.rent form{
+    width: 100%;
+    height: 300px;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
+
+.rent input{
+    width: 337px;
+}
+
+.driver-name,.phone-no,.address,.aadhar-no{
+    width: 100%;
+}

@@ -19,24 +19,28 @@ app.post('/login',(req,res)=>{
 app.get('/search',(req,res)=>{
     res.status(201).send({
         'data':[
-            ['Car', 25000, 'Available', 'Toyota', 'Camry', 2023],
-            ['Motorcycle', 15000, 'Out of Stock', 'Harley-Davidson', 'Iron 883', 2022],
-            ['Truck', 35000, 'Available', 'Ford', 'F-150', 2024],
-            ['SUV', 30000, 'Available', 'Honda', 'CR-V', 2023],
-            ['Van', 28000, 'Available', 'Chrysler', 'Pacifica', 2023],
-            ['Van', 22000, 'Available', 'Chrysler', 'Pacifica', 2023]
+            {"key": 1, "vehicleName": "Camry", "vehiclePrice": 25000, "imageSrc": ""},
+            {"key": 2, "vehicleName": "Civic", "vehiclePrice": 22000, "imageSrc": ""},
+            {"key": 3, "vehicleName": "Accord", "vehiclePrice": 27000, "imageSrc": ""},
+            {"key": 4, "vehicleName": "Model 3", "vehiclePrice": 35000, "imageSrc": ""},
+            {"key": 5, "vehicleName": "Mustang", "vehiclePrice": 30000, "imageSrc": ""}
         ]
     })
 })
 
 app.get('/filter',(req,res)=>{
+    console.log(req.body);
     res.status(201).send({
         'data':[
-            ['Car', 25000, 'Available', 'Toyota', 'Camry', 2023],
-            ['Motorcycle', 15000, 'Out of Stock', 'Harley-Davidson', 'Iron 883', 2022],
-            ['Truck', 35000, 'Available', 'Ford', 'F-150', 2024]
+            {"key": 1, "vehicleName": "Camry", "vehiclePrice": 25000, "imageSrc": ""},
+            {"key": 2, "vehicleName": "Civic", "vehiclePrice": 22000, "imageSrc": ""}
         ]
     })
+})
+
+app.post('/rent-vehicle',(req,res)=>{
+    console.log(req.body);
+    res.send({'res':true});
 })
 
 app.listen(8000,()=>{

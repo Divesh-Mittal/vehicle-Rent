@@ -1,61 +1,135 @@
-import Name from "../LoginSignup/Name";
-import TypeDropDown from "./TypeDropDown";
-import Price from "./Price";
+import Text from "../FormElements/Text";
+import DropDown from "../FormElements/DropDown";
+import Number from "../FormElements/Number";
 import './RegisterVehicle.css'
-
 import { useState } from "react";
 
 function RegisterVehicle(props){
-    const x = ['Scooter','Car','Bike']
+    const vehicleTypeOptions = ['Scooter','Car','Bike']
+    const fuelTypeOptions = ['Petrol','Electric','Diesel']
     const [vehicleName,setVehicleName] = useState('');
     const [vehicleType,setVehicleType] = useState('');
     const [fuelType,setFuelType] = useState('');
-    const [price,setPrice] = useState({'hour':0,'day':0,'week':0});
+    const [price,setPrice] = useState({'hour':'','day':'','week':''});
+    const [file,setFile] = useState();
+    const [error,setError] = useState(false);
 
     const inputChangeHandler = (identifier,value)=>{
         if(identifier === 'vehicleName') setVehicleName(value);
         else if(identifier === 'vehicleType') setVehicleType(value);
         else if(identifier === 'fuelType') setFuelType(value);
-        else setPrice((state)=>{
-            const newState = {...state};
-            newState[identifier] = value;
-            return newState;
+        else if(identifier === 'hour' || identifier === 'day' || identifier === 'week'){
+            setPrice((state)=>{
+                const newState = {...state};
+                newState[identifier] = value;
+                return newState;
+            })
+        }
+        else setFile(value);
+        if(error === true) setError(false);
+    }
+
+    const submitHandler = event =>{
+        event.preventDefault();
+        const formData = {
+            'vehicleName':vehicleName,
+            'vehicleType':vehicleType,
+            'fuelType':fuelType,
+            'price':price,
+            'file':file
+        }
+        
+        fetch('http://localhost:8000/register-vehicle',{
+            headers:{
+                'content-type':'multipart/form-data',
+                body:formData
+            }
         })
+        .then(response=>{
+            if(!response.ok) throw new Error('network was not ok');
+        })
+        .catch(error=>{
+            setError(true);
+        })
+
+
     }
     return(
         <div className = "register">
-            <Name 
-                id = 'vehicleName'
-                key = 'vehicleName'
-                name = 'vehicleName'
-                data = {vehicleName}
-                label = 'Vehicle Name'
-                className = 'vehicle-name'
-                onNameChange = {inputChangeHandler}
-            />
-            <TypeDropDown
-                id = 'vehicle-dropdown'
-                name = 'vehicleType'
-                data = {x}
-                label = 'Vehicle Type'
-                className = 'vehicle'
-                defaultOption = 'Vehicle-type'
-                onTypeChange = {inputChangeHandler}
-            />
-            <TypeDropDown
-                id = 'fuel-dropdown'
-                name = 'fuelType'
-                data = {x}
-                label = 'Fuel Type'
-                className = 'fuel'
-                defaultOption = 'Fuel-type'
-                onTypeChange = {inputChangeHandler}
-            />
-            <Price
-                data = {price}
-                onPriceChange = {inputChangeHandler}
-            />
+            <form onSubmit = {submitHandler}>
+                <header>
+                    {error && <span>Oooops, something went wrong</span>}
+                    <h1>Register Vehicle</h1>
+                </header>
+                <Text 
+                    id = 'vehicleName'
+                    key = 'vehicleName'
+                    name = 'vehicleName'
+                    data = {vehicleName}
+                    label = 'Vehicle Name'
+                    inputType = 'text'
+                    className = 'register-vehicleName'
+                    onNameChange = {inputChangeHandler}
+                />
+                <DropDown
+                    id = 'vehicle-dropdown'
+                    name = 'vehicleType'
+                    label = 'Vehicle Type'
+                    data = {vehicleType}
+                    options = {vehicleTypeOptions}
+                    className = 'vehicle'
+                    defaultOption = 'Vehicle Type'
+                    onOptionChange = {inputChangeHandler}
+                />
+                <DropDown
+                    id = 'fuel-dropdown'
+                    name = 'fuelType'
+                    label = 'Fuel Type'
+                    data = {fuelType}
+                    options = {fuelTypeOptions}
+                    className = 'fuel'
+                    defaultOption = 'Fuel Type'
+                    onOptionChange = {inputChangeHandler}
+                />
+                <br/>
 
+                <div className = 'register-price'>
+                    <Number 
+                        id = 'hour'
+                        name = 'hour'
+                        data = {price.hour}
+                        label = 'Hourly Price'
+                        className = 'hour'
+                        onNumberChange = {inputChangeHandler}
+                    />
+
+                    <Number 
+                        id = 'day'
+                        name = 'day'
+                        data = {price.day}
+                        label = 'Daily Price'
+                        className = 'day'
+                        onNumberChange = {inputChangeHandler}
+                    />
+
+                    <Number 
+                        id = 'week'
+                        name = 'week'
+                        data = {price.week}
+                        label = 'Weekly Price'
+                        className = 'week'
+                        onNumberChange = {inputChangeHandler}
+                    />
+                </div>
+                <label htmlFor = 'register-image'></label>
+                <input 
+                    id = 'register-image' 
+                    type = 'file' 
+                    onChange = {event=> {inputChangeHandler('file',event.target.files[0])}}
+                    className = 'register-image' 
+                />
+                <button type = 'submit'>Register</button>
+            </form>
         </div>
     );
 }
