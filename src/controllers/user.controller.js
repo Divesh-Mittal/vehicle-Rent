@@ -5,15 +5,10 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 const registerUser=asyncHandler(async(req,res)=>{
 
     //handling the inputs
-    const {password, email,fullname}=req.body;
-    // console.log(req.body);
-    // console.log("email:",email);
-    // console.log("fullname:",fullname);
-    // console.log("username:",username);
-    // console.log("password:",password);
+    const {password, email,name}=req.body;
 
     //validating the inputs if they are somehow null or empty
-    if([password,email,fullname].some(fields=>fields?.trim()==="")){
+    if([password,email,name].some(fields=>fields?.trim()==="")){
         throw new ApiError(400,"ALl Fields are required");
     }
     
@@ -30,7 +25,7 @@ const registerUser=asyncHandler(async(req,res)=>{
    
     //after validating regsitring the user into our database
     const user=await User.create({
-        fullname,
+        name,
         email,
         password,
         // username:username.toLowerCase()
@@ -74,10 +69,12 @@ const login= asyncHandler(async(req,res)=>{
     if(!email)throw  new ApiError(400,"email is required");
 
    const loginedUser=await  User.findOne({email})
+    console.log("error is checking");
     console.log(loginedUser);
    if(!loginedUser)throw new ApiError(404,"user not found");
 
    const isPassowrdValid=await loginedUser.isPasswordCorrect(password);
+   console.log("password is checking");
    console.log(isPassowrdValid);
    if(!isPassowrdValid)throw new ApiError(401,"Wrong password");
    const {accessToken,refreshToken}=await generateAccessAndRefreshTokens(loginedUser._id);
@@ -101,6 +98,7 @@ const login= asyncHandler(async(req,res)=>{
             user:user,accessToken,refreshToken
         },
         "user logined successfully",
+        true
     )
    )
 });

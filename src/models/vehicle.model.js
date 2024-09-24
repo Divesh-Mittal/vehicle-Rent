@@ -1,35 +1,47 @@
-import mongoose,{Schema} from "mongoose";
 
-const vehicleSchema= new Schema({
-    vehicleid:{
-        type:Number,
+import { User } from "./user.model.js";
+import mongoose, { Schema } from "mongoose";
+
+const vehicleSchema = new Schema({
+    VehicleName: {
+        type: String,
+        required: true,
     },
-    vehicleType:{
+    vehicleType: {
+        type: String,
+        enum: ['Bike', 'Car', 'Scooter'],
+        required: true,
+    },
+    Price: {
+        type: Number,
+        required: true,
+    },
+    Hour: {
+        type: Number,
+        required: true,
+    },
+    Weekly: {
+        type: Number,
+        required: true,
+    },
+    Owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: User,
+        // required: true,
+    },
+    Daily: {
+        type: Number,
+        required: true,
+    },
+    // Location: {
+    //     type: Object,
+    //     required: true,
+    // },
+    FuelType:{
         type:String,
-        required:true
-    },
-    Hours:{
-        type:Number,
         required:true,
     },
-    Days:{
-        type:Number,
-        required:true,
-    },
-    Week:{
-        type:Number,
-        required:true,
-    },
+    // image s3 bucket 
+}, { timestamps: true });
 
-    Availabilty:{
-        type:String,
-        required:true,
-        lowercase:true
-    },
-    refreshToken:{
-        type:String
-    }
-
-},{timestamps:true})
-
-export const Vehicle= mongoose.model("Vehicle",vehicleSchema);
+export const Vehicle = mongoose.model("Vehicle", vehicleSchema);

@@ -19,9 +19,11 @@ app.use(cookieParser())
 
 //routes declaration 
 import userRouter from "./routes/users.routes.js"
+import vehicleRouter from "./routes/vehicle.routes.js"
 
 app.use("/api/v1/users",userRouter)
-// userRouter("/register",registerUser)
+app.use("/api/v1/vehicles",vehicleRouter)
+
 export {app}
 
 // console.log(process.env.CORS_ORIGIN);

@@ -12,7 +12,8 @@ function LoginSignupForm(props){
     const [error,setError] = useState(false);
 
     useEffect(()=>{
-        const getUrl = ()=> login?"http://localhost:8000/login":"http://localhost:8000/register";
+        // 3000/api/v1/users/login
+        const getUrl = ()=> login?"http://localhost:3000/api/v1/users/login":"http://localhost:3000/api/v1/users/register";
         const sendFormData = (data)=>{
             props.onFormSubmit(data);
         }
