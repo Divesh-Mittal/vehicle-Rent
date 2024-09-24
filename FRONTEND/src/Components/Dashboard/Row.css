@@ -1,0 +1,31 @@
+.row{
+    width: 100%;
+    height: 40px;
+    margin-block: 2.5px;
+
+    display:grid;
+    grid-template-columns: 0.3fr repeat(4,1fr);
+    grid-template-rows: 1fr;
+
+    background-color: rgba(246, 244, 244, 0.7);
+}
+
+.row input[type = 'checkbox']{
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+}
+
+.row-check,.row-vehicle-name,.row-fuel-type,.row-vehicle-type,.row-vehicle-price{
+    padding: 8px;
+    margin-inline:1.5px;
+    background-color: white;
+}
+
+.row-check{
+    text-align: center;
+}
+
+.row-element{
+    background-color: aqua;
+}

@@ -1,7 +1,6 @@
 .card{
-    width: 31.5%;
+    width: 30.5%;
     height: 450px;
-    margin-inline: 5px;
     border: 1px solid rgba(0, 0, 0, 0.5);
     
     font-size: 1.2rem;

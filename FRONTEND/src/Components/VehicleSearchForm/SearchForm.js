@@ -113,8 +113,8 @@ function SearchForm(props){
 
     const formSubmitHandler = (event)=>{
         event.preventDefault();
-        const data = {'location':location,'date':date,'time':time};
-        const queryParams = new URLSearchParams(data).toString();
+        const formData = {'location':location,'date':date,'time':time};
+        const queryParams = new URLSearchParams(formData).toString();
 
         fetch(`http://localhost:8000/search?${queryParams}`)
         .then((response)=> {
@@ -123,7 +123,9 @@ function SearchForm(props){
             return response.json();
         })
         .then(data => {
-            props.onSearch(data);
+            // console.log(data);
+            // console.log(formData);
+            props.onSearch({'vehicleData':data,'searchData':formData});
         })
         .catch(error=>{
             console.log(error);

@@ -1,25 +1,29 @@
 import { useState } from 'react'
+import {useNavigate} from 'react-router-dom'
 import './Search.css';
 import Card from '../VehicleCard/Card';
 import FilterForm from '../Filter/FilterForm';
 import SearchForm from '../VehicleSearchForm/SearchForm';
 
-// const vehicles = [
-//     ['Car', 25000, 'Available', 'Toyota', 'Camry', 2023],
-//     ['Motorcycle', 15000, 'Out of Stock', 'Harley-Davidson', 'Iron 883', 2022],
-//     ['Truck', 35000, 'Available', 'Ford', 'F-150', 2024],
-//     ['SUV', 30000, 'Available', 'Honda', 'CR-V', 2023],
-//     ['Van', 28000, 'Available', 'Chrysler', 'Pacifica', 2023],
-//     ['Van', 22000, 'Available', 'Chrysler', 'Pacifica', 2023]
-//   ];
-
 function Search(props){
+    const navigate = useNavigate();
+    const [resultVehicleData,setResultVehicleData] = useState({});
+    const [searchData,setSearchData] = useState({});
 
-    const [vehicleData,setVehicleData] = useState({});
+    const book = rentVehicleData => {
+        navigate('/rent-vehicle')
+        props.onSaveBookVehicleData({
+            'vehicleData':rentVehicleData,
+            'bookingInfo':searchData
+        });
+    }
+    const searchHandler = data => {
+        setResultVehicleData(data.vehicleData);
+        setSearchData(data.searchData);
+    }
 
-    const vehicles = ()=>{}
-    const searchHandler = (data)=>{
-        setVehicleData(data);
+    const filterHandler = data => {
+        setResultVehicleData(data)
     }
     
     return(
@@ -27,18 +31,16 @@ function Search(props){
             <SearchForm onSearch = {searchHandler}/>
             <div className = 'search-filter-result'>
                 <div className = 'search-filter'>
-                    <FilterForm onFilter = {searchHandler}/>
+                    <FilterForm searchFormData = {Object.keys(searchData).length>0?searchData:null} onFilter = {filterHandler}/>
                 </div>
                 <div className = 'result-card'>
                     {
-                        Object.keys(vehicleData).length > 0?
-                        vehicleData.data.map( element=>(
+                        Object.keys(resultVehicleData).length > 0?
+                        resultVehicleData.data.map( element=>(
                             <Card 
-                                key = {element[0]}
-                                imageSrc = {""}
-                                onBookRide = {vehicles} //function to bookride
-                                vehicleName = {element[0]}
-                                vehiclePrice = {element[1]}
+                                key = {element.key}
+                                data = {element}
+                                onBookRide = {book} //function to bookride
                             />
                         ))
                         :

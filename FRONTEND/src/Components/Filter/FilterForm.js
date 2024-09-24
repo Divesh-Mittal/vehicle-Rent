@@ -26,7 +26,6 @@ function FilterForm(props){
         setFilterOpen(((window.innerWidth>1060 && window.innerWidth<=1250) || (window.innerWidth<=870))?false:true);
     });
 
-
     const inputChangeHandler = (type,key,isChecked) => {
         if(type === 'vehicle'){
             setVehicleType(prevState => {
@@ -59,8 +58,10 @@ function FilterForm(props){
 
     const submitHandler = event=>{
         event.preventDefault();
+        if(props.searchFormData === null) return;
         if(filterOpen){
             const data = {
+                'searchData':props.searchFormData,
                 'fuelType':fuelType,
                 'vehicleType':vehicleType,
                 'priceType':priceType
@@ -77,9 +78,7 @@ function FilterForm(props){
                 props.onFilter(data);
             })
             .catch(error=>{console.log(error)});
-
         }
-        
     }
 
     const classes = 'filter-form'.concat(`${props.className === undefined?'':props.className}`)

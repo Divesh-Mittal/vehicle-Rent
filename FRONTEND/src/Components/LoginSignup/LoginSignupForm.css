@@ -2,7 +2,7 @@
     display: none;
 }
 .login-signup-form{
-    height: 80vh;
+    height: 480px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,29 +24,20 @@
 
 
 .credentials{
-    width: 350px;
     height: fit-content;
 
     display: flex;
     flex-direction: column;
 }
 .login-signup-email,.login-signup-password,.signup-name{
-    width: 350px;
     height: 45px;
     margin-block: 12px;
     font-size: 1.2rem;
     font-weight: 400;
 }
 .login-signup-form input{
-    margin: 0;
     width: 337px;
     height: 100%;
-    padding-inline: 5px;
-
-    border: 2px solid rgba(0, 0, 0, 0.5);
-    border-radius: 5px;
-
-    font-size: 1rem;
 }
 .login-signup-form span{
     color:rgb(25, 25, 220);
@@ -57,7 +48,7 @@
     align-self:center;
 }
 .login-signup-btn{
-    width: 350px;
+    width: 100%;
     height: 45px;
     margin-top: 10px;
     margin-bottom: 5px;
@@ -90,18 +81,7 @@
     margin: 2px;
 }
 .login-signup-options button{
-    width: 350px;
-    height: 45px;
     margin: 2.5px 0;
-
-    border: 2px solid rgba(0, 0, 0, 0.5);
-    border-radius: 5px;
-}
-
-@media screen and (max-height:600px) {
-    .login-signup-form{
-        height: 480px;
-    }
 }
 
 @media screen and (max-width:350px){
@@ -109,7 +89,7 @@
         width: 100%;
         padding-inline:15px ;
     }
-    .login-signup-form form,.credentials,.login-signup-options hr,.login-signup-btn,.login-signup-email,.login-signup-password,.signup-name{
+    .login-signup-form form,.login-signup-options hr{
         width: 100%;
     }
     .login-signup-form input{

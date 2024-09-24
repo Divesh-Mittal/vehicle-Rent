@@ -4,19 +4,19 @@ function Card(props){
     const classes = 'card'.concat(` ${props.className}`);
 
     const bookRideHandler = ()=>{
-        props.onBookRide(props.key); // pending
+        props.onBookRide(props.data);
     }
     return (
         <div className = {classes}>
             <div className = 'vehicle-image'>
-                <img src = {props.imageSrc} alt = "Imag"/>
+                <img src = {props.data.imageSrc} alt = "Imag"/>
             </div>
             <section className = 'vehicle-info'>
                 <div className = 'vehicle-name'>
-                    <p>{props.vehicleName} Hyundai</p>
+                    <p>{props.data.vehicleName}</p>
                 </div>
                 <div className = 'vehicle-price'>
-                    <p>Rs. {props.vehiclePrice}/day</p>
+                    <p>Rs. {props.data.vehiclePrice}/day</p>
                 </div>
                 <div className = 'vehicle-location'>
                     <p>See location on map</p>
