@@ -10,6 +10,8 @@ function VehicleRentForm(props){
     const [aadharNo,setAadharNo] = useState('');
     const [cost,setCost] = useState(0);
 
+    console.log(props.bookingData);
+
     const inputChangeHandler = (identifier,value)=>{
         if(identifier === 'name') setName(value);
         else if(identifier === 'phone') setPhone(value);
@@ -34,14 +36,12 @@ function VehicleRentForm(props){
     const submitHandler = event =>{
         event.preventDefault();
         const data = {
-            'userCredentials':{
-                'name':name,
-                'phone':phone,
-                'address':address,
-                'aadharNo':aadharNo,
-            },
+            'name':name,
+            'phone':phone,
+            'address':address,
+            'aadharNo':aadharNo,
             'bookingInfo':props.bookingData.bookingInfo,
-            'vehicleData':props.bookingData.vehicleData,
+            'vehicleId':props.bookingData.vehicleData.key,
             'cost':cost
         }
         fetch("http://localhost:8000/rent-vehicle",{

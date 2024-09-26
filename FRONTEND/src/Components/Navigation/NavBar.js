@@ -14,7 +14,7 @@ function NavBar(props){
                     </div>
                 </Link>
                 {
-                    props.loggedIn &&
+                    // props.loggedIn &&
                     <Link to = '/dashboard'>
                         <button className = 'dashboard-btn'>DashBoard</button>
                     </Link>
