@@ -10,7 +10,18 @@ const storage = multer.diskStorage({
       cb(null, file.originalname)
     }
   })
+
+//   const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads/'); // Specify the destination folder
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname); // Use the original file name
+//     }
+// });
+
+// const upload = multer({ storage: storage });
   
-  export const upload = multer({ storage })
+  export const upload = multer({storage: storage })
 
   //this middleware is basically build to provide the local file path to the clodinary utility for effective file uploading

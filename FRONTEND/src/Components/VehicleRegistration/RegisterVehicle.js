@@ -52,15 +52,16 @@ function RegisterVehicle(props){
 
 
         const formData = new FormData(); 
-        formData.append('vehicleName',vehicleName);
+        formData.append('VehicleName',vehicleName);
         formData.append('vehicleType',vehicleType);
         formData.append('fuelType',fuelType);
-        formData.append('hour',price.hour);
-        formData.append('day',price.day);
-        formData.append('week',price.week);
-        formData.append('file',file)
+        formData.append('Hour',price.hour);
+        formData.append('Daily',price.day);
+        formData.append('Weekly',price.week);
+        formData.append('vehicleImage',file)
 
-        fetch('http://localhost:8000/register-vehicle',{
+        fetch('http://localhost:3000/api/v1/vehicles/create',{
+        // fetch('http://localhost:8000/register-vehicle',{
             method:'POST',
             body:formData
 // >>>>>>> 0f602c6f1eb3666a6b248e8b41ce293b08813ff6
