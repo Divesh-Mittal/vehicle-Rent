@@ -3,7 +3,7 @@ import './DropDown.css'
 function DropDown(props){
     const classes = "dropdown".concat(` ${props.className}`);
     const dropDownChangeHandler = event =>{
-        props.onOptionChange(event.target.value,props.identifier);
+        props.onOptionChange(props.name,event.target.value);
     }
     return(
         <div className = {classes} >

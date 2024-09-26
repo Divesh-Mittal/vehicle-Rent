@@ -64,8 +64,8 @@ function SearchForm(props){
     let timeIntervalsStart = initialTime.pickhours;
     if(initialTime.pickminutes === 30) timeIntervalsStart+=0.5;
 
+    const [isError,setError] = useState(false);
     const [location,setLocation] = useState('');
-
     const [date,setDate] = useState({'pickupDate':initialDate.pickupDate,'dropDate':initialDate.dropDate});
     const [time,setTime] = useState({'pickupTime':initialPickupTime,'dropTime':initialDropTime});
     const [pickupTimeIntervals,setPickupTimeIntevals] = useState(timeIntervals.slice(timeIntervalsStart*2));
@@ -109,6 +109,7 @@ function SearchForm(props){
             }))
         }
         else setLocation(value);
+        if(isError === true) setError(false);
     }
 
     const formSubmitHandler = (event)=>{
@@ -116,25 +117,24 @@ function SearchForm(props){
         const formData = {'location':location,'date':date,'time':time};
         const queryParams = new URLSearchParams(formData).toString();
 
-        fetch(`http://localhost:8000/search?${queryParams}`)
+        fetch(`http://localhost:8000/bookedVehicles?${queryParams}`)
         .then((response)=> {
             if(!response.ok)
                 throw new Error("Oops Something went wrong");
             return response.json();
         })
         .then(data => {
-            // console.log(data);
-            // console.log(formData);
             props.onSearch({'vehicleData':data,'searchData':formData});
         })
         .catch(error=>{
-            console.log(error);
+            setError(true);
         })
     }
 
     return(
         <div className = 'search-form'>
-            <form onSubmit = {formSubmitHandler} method = 'get'>
+            {isError && <div style={{textAlign:'center',marginBottom:'5px'}}>Ooops, something went wrong!</div>}
+            <form onSubmit = {formSubmitHandler}>
                 <div className = 'location'>
                     <label htmlFor = 'city'>City</label><br />
                     <select

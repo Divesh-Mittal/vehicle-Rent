@@ -40,7 +40,7 @@ function Search(props){
                             <Card 
                                 key = {element.key}
                                 data = {element}
-                                onBookRide = {book} //function to bookride
+                                onBookRide = {book}
                             />
                         ))
                         :
