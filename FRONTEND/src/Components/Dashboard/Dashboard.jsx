@@ -23,10 +23,10 @@ function Dashboard(props){
     const [rowSelected,setRowSelected] = useState({0:false});
     
     const prepareTable = (table)=>{
-        setTableData(table.data) 
+        setTableData(table);
         const newState = {0:false}
-        for(let i=0;i<table.data.length;i++)
-            newState[table.data[i].key] = false;
+        for(let i=0;i<table.length;i++)
+            newState[table[i].key] = false;
         setRowSelected(newState);
     }
 
@@ -131,7 +131,11 @@ function Dashboard(props){
             </div>
             <div className = 'content'>
                 {
-                    option.bookingDetailOption && <SearchForm onSearch = {searchHandler}/>
+                    option.bookingDetailOption && 
+                    <SearchForm 
+                        searchURL = {'http://localhost:8000/specificBookedVehicles'} 
+                        onSearch = {searchHandler}
+                    />
                 }
                 <div className = 'table'>
                     <Row 

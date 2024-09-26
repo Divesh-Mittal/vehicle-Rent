@@ -60,15 +60,18 @@ function FilterForm(props){
         event.preventDefault();
         if(props.searchFormData === null) return;
         if(filterOpen){
-            const data = {
-                'searchData':props.searchFormData,
-                'fuelType':fuelType,
-                'vehicleType':vehicleType,
-                'priceType':priceType
+            const sendData = {
+                'location':props.searchFormData.location,
+                'date':JSON.stringify(props.searchFormData.date),
+                'time':JSON.stringify(props.searchFormData.time),
+                'fuelType':JSON.stringify(fuelType),
+                'vehicleType':JSON.stringify(vehicleType),
+                'priceType':JSON.stringify(priceType)
             };
+            
             setFilterOpen(((window.innerWidth>1060 && window.innerWidth<=1250) || (window.innerWidth<=870))?false:true);
 
-            const queryParams = new URLSearchParams(data).toString();
+            const queryParams = new URLSearchParams(sendData).toString();
             fetch(`http://localhost:8000/filter?${queryParams}`)
             .then(response => {
                 if(!response.ok) return new Error("server error");

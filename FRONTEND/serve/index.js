@@ -18,7 +18,8 @@ app.post('/login',(req,res)=>{
 })
 
 app.get('/search',(req,res)=>{
-    console.log(req.params);
+    console.log(true);
+    console.log(req.query);
     res.status(201).send({
         'data':[
             {"key": 1, "vehicleName": "Camry", "vehiclePrice": 25000, "imageSrc": ""},
@@ -31,11 +32,11 @@ app.get('/search',(req,res)=>{
 })
 
 app.get('/filter',(req,res)=>{
-    console.log(req.body);
+    console.log(req.query);
     res.status(201).send({
         'data':[
-            {"key": 1, "vehicleName": "Camry", "vehiclePrice": 25000, "imageSrc": ""},
-            {"key": 2, "vehicleName": "Civic", "vehiclePrice": 22000, "imageSrc": ""}
+            {"key": 1, "vehicleName": "Camry", "vehiclePrice": 25000},
+            {"key": 2, "vehicleName": "Civic", "vehiclePrice": 22000}
         ]
     })
 })
@@ -46,8 +47,7 @@ app.post('/rent-vehicle',(req,res)=>{
 })
 
 app.get('/listVehicles',(req,res)=>{
-    res.send( {
-        'data': [
+    res.send([
           {"key": 1, "vehicleName": "Camry", "vehiclePrice": 25000, "fuelType": "petrol", "vehicleType": "car", "imageSrc": ""},
           {"key": 2, "vehicleName": "Civic", "vehiclePrice": 22000, "fuelType": "petrol", "vehicleType": "car", "imageSrc": ""},
           {"key": 3, "vehicleName": "Accord", "vehiclePrice": 27000, "fuelType": "petrol", "vehicleType": "car", "imageSrc": ""},
@@ -59,17 +59,16 @@ app.get('/listVehicles',(req,res)=>{
           {"key": 9, "vehicleName": "Ninja 400", "vehiclePrice": 10000, "fuelType": "petrol", "vehicleType": "bike", "imageSrc": ""},
           {"key": 10, "vehicleName": "Elantra", "vehiclePrice": 22000, "fuelType": "petrol", "vehicleType": "car", "imageSrc": ""},
         ]
-    })
+    )
 })
 
 app.get('/bookedVehicles',(req,res)=>{
-    res.send({
-        'data': [
+    res.send([
           {"key": 1, "vehicleName": "Camry", "vehiclePrice": 25000, "fuelType": "petrol", "vehicleType": "car"},
-          {"key": 9, "vehicleName": "Ninja 400", "vehiclePrice": 10000, "fuelType": "petrol", "vehicleType": "bike", "imageSrc": ""},
-          {"key": 10, "vehicleName": "Elantra", "vehiclePrice": 22000, "fuelType": "petrol", "vehicleType": "car", "imageSrc": ""}
+          {"key": 9, "vehicleName": "Ninja 400", "vehiclePrice": 10000, "fuelType": "petrol", "vehicleType": "bike"},
+          {"key": 10, "vehicleName": "Elantra", "vehiclePrice": 22000, "fuelType": "petrol", "vehicleType": "car"}
         ]
-    })
+    )
 })
 
 const storage = multer.diskStorage({
@@ -98,6 +97,11 @@ app.post('/delete-vehicle',(req,res)=>{
 
 app.get('/calculate-cost',(req,res)=>{
     res.send({'cost':500});
+})
+
+app.get('/specificBookedVehicles',(req,res)=>{
+    console.log(req.query);
+    res.send([{"key": 1, "vehicleName": "Camry", "vehiclePrice": 25000, "fuelType": "petrol", "vehicleType": "car"}]);
 })
 app.listen(8000,()=>{
     console.log(`Server started`);

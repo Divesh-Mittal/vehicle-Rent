@@ -114,10 +114,19 @@ function SearchForm(props){
 
     const formSubmitHandler = (event)=>{
         event.preventDefault();
-        const formData = {'location':location,'date':date,'time':time};
-        const queryParams = new URLSearchParams(formData).toString();
+        const formData = {
+            'location':location,
+            'date':date,
+            'time':time
+        };
+        const sendData = {
+            'location':location,
+            'date':JSON.stringify(date),
+            'time':JSON.stringify(time)
+        }
+        const queryParams = new URLSearchParams(sendData).toString();
 
-        fetch(`http://localhost:8000/bookedVehicles?${queryParams}`)
+        fetch(`${props.searchURL}?${queryParams}`)
         .then((response)=> {
             if(!response.ok)
                 throw new Error("Oops Something went wrong");
