@@ -25,25 +25,26 @@ function RegisterVehicle(props){
                 return newState;
             })
         }
-        else setFile(value);
+        else
+            setFile(value);
         if(error === true) setError(false);
     }
 
     const submitHandler = event =>{
         event.preventDefault();
-        const formData = {
-            'vehicleName':vehicleName,
-            'vehicleType':vehicleType,
-            'fuelType':fuelType,
-            'price':price,
-            'file':file
-        }
-        
+
+        const formData = new FormData(); 
+        formData.append('vehicleName',vehicleName);
+        formData.append('vehicleType',vehicleType);
+        formData.append('fuelType',fuelType);
+        formData.append('hour',price.hour);
+        formData.append('day',price.day);
+        formData.append('week',price.week);
+        formData.append('file',file)
+
         fetch('http://localhost:8000/register-vehicle',{
-            headers:{
-                'content-type':'multipart/form-data',
-                body:formData
-            }
+            method:'POST',
+            body:formData
         })
         .then(response=>{
             if(!response.ok) throw new Error('network was not ok');
@@ -51,8 +52,6 @@ function RegisterVehicle(props){
         .catch(error=>{
             setError(true);
         })
-
-
     }
     return(
         <div className = "register">
@@ -69,13 +68,13 @@ function RegisterVehicle(props){
                     label = 'Vehicle Name'
                     inputType = 'text'
                     className = 'register-vehicleName'
-                    onNameChange = {inputChangeHandler}
+                    onInputChange = {inputChangeHandler}
                 />
                 <DropDown
                     id = 'vehicle-dropdown'
+                    data = {vehicleType}
                     name = 'vehicleType'
                     label = 'Vehicle Type'
-                    data = {vehicleType}
                     options = {vehicleTypeOptions}
                     className = 'vehicle'
                     defaultOption = 'Vehicle Type'
@@ -84,8 +83,8 @@ function RegisterVehicle(props){
                 <DropDown
                     id = 'fuel-dropdown'
                     name = 'fuelType'
-                    label = 'Fuel Type'
                     data = {fuelType}
+                    label = 'Fuel Type'
                     options = {fuelTypeOptions}
                     className = 'fuel'
                     defaultOption = 'Fuel Type'

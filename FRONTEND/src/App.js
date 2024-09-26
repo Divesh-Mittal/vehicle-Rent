@@ -1,5 +1,5 @@
 import { useNavigate,Route,Routes } from 'react-router-dom'
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 import RegisterVehicle from './Components/VehicleRegistration/RegisterVehicle';
 import NavBar from './Components/Navigation/NavBar';
@@ -7,7 +7,6 @@ import Search from './Components/VehicleSearch/Search';
 import LoginSignupForm from './Components/LoginSignup/LoginSignupForm'
 import NotFound from './Components/PageNotFound/NotFound';
 import RentVehicleForm from './Components/VehicleRent/RentVehicleForm'
-import Row from './Components/Dashboard/Row';
 import Dashboard from './Components/Dashboard/Dashboard';
 
 function App() {
