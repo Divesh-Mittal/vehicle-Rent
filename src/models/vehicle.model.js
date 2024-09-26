@@ -12,10 +12,10 @@ const vehicleSchema = new Schema({
         enum: ['Bike', 'Car', 'Scooter'],
         required: true,
     },
-    Price: {
-        type: Number,
-        required: true,
-    },
+    // Price: {
+    //     type: Number,
+    //     required: true,
+    // },
     Hour: {
         type: Number,
         required: true,
@@ -37,10 +37,14 @@ const vehicleSchema = new Schema({
     //     type: Object,
     //     required: true,
     // },
-    FuelType:{
+    fuelType:{
         type:String,
+        enum: ['Petrol', 'Diesel', 'Electric'],
         required:true,
     },
+    vehicleImage:{
+        type:String
+    }
     // image s3 bucket 
 }, { timestamps: true });
 

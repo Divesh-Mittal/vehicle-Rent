@@ -35,11 +35,15 @@ function RegisterVehicle(props){
             'vehicleName':vehicleName,
             'vehicleType':vehicleType,
             'fuelType':fuelType,
-            'price':price,
+            'Hour':price.hour,
+            'Weekly':price.week,
+            'Daily':price.day,
+            // 'price':price,
             'file':file
         }
         
-        fetch('http://localhost:8000/register-vehicle',{
+        fetch('http://localhost:3000/api/v1/vehicles/create',{
+            method:"POST",
             headers:{
                 'content-type':'multipart/form-data',
                 body:formData
@@ -47,9 +51,14 @@ function RegisterVehicle(props){
         })
         .then(response=>{
             if(!response.ok) throw new Error('network was not ok');
+            return response.json();
         })
+        // .then(data=>{
+        //     console.log(data);
+        // })
         .catch(error=>{
             setError(true);
+            // console.log(error);
         })
 
 
@@ -69,7 +78,7 @@ function RegisterVehicle(props){
                     label = 'Vehicle Name'
                     inputType = 'text'
                     className = 'register-vehicleName'
-                    onNameChange = {inputChangeHandler}
+                    onInputChange = {inputChangeHandler}
                 />
                 <DropDown
                     id = 'vehicle-dropdown'

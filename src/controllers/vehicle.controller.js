@@ -3,11 +3,17 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Vehicle } from "../models/vehicle.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-
+import { upadateOnCloudinary } from "../utils/cloudinary.js";
  const createVehicle=asyncHandler(async(req,res)=>{
-    const {VehicleName, vehicleType, Hour,Owner, Daily,Weekly,FuelType, Price } = req.body;
-    console.table([VehicleName, vehicleType, Hour,Owner, Daily, Weekly,FuelType, Price ]);
-    if([VehicleName, vehicleType, Hour,Owner, Daily, Weekly,FuelType, Price].some(field => field === undefined || field ==="")){
+    const {VehicleName, vehicleType, Hour,
+        // Owner
+         Daily,Weekly,fuelType } = req.body;
+         console.log(req.body);
+    // console.table([VehicleName, vehicleType, Hour, Daily, Weekly,fuelType ]);
+
+    if([VehicleName, vehicleType, Hour,
+        // Owner,
+         Daily, Weekly,fuelType].some(field => field === undefined || field ==="")){
         throw new ApiError(400,"all field are required");
     }
     const existingVehicle=await Vehicle.findOne({VehicleName});
@@ -15,13 +21,34 @@ import { ApiResponse } from "../utils/ApiResponse.js";
     
     if(existingVehicle)
         throw new ApiError(400,"Vehicle already exists");
+    // this vehicleImage is defined in the routes vehicle.routes.js thats why we have used it here
+    console.log(req.file);
     
+    const vehicleImagePath=req.file?.path;
+    console.log(vehicleImagePath);
+    
+    //this validation is applied with the fact that the vehcile image is expected with every vhrcle registrtaion
+    if(!vehicleImagePath){
+        throw new ApiError(400,"vehicle image is required");
+    }
+
+    // well for now i am also storing the  local copy of the file in my disk but after evrything correct i will modify my clodinary function to dlete it from myserver after each successful upload on cloudinary
+
+    const publicVehicleImage=await upadateOnCloudinary(vehicleImagePath);
+    // console.log(publicVehicleImage);
+
+    if(!publicVehicleImage){
+        throw new ApiError(400,"vehicle image is required");
+    }
     const newVehicle= await Vehicle.create({
-        VehicleName, vehicleType, Hour,Owner, Daily, Weekly, FuelType, Price
+        VehicleName, vehicleType, Hour,
+        // Owner, 
+        Daily, Weekly, fuelType,
+        vehicleImage:publicVehicleImage?.url || ""
     });
     // Check if the vehicle was successfully created
     if (newVehicle) {
-        return res.status(201).json({
+        return res.status(200).json({
             message: "Vehicle created successfully",
             vehicle: newVehicle,
         });
