@@ -1,65 +1,153 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
+import SearchForm from '../VehicleSearchForm/SearchForm';
 import Row from './Row';
-const data = {
-    'data': [
-      {"key": 1, "vehicleName": "Camry", "vehiclePrice": 25000, "fuelType": "petrol", "vehicleType": "car", "imageSrc": ""},
-      {"key": 2, "vehicleName": "Civic", "vehiclePrice": 22000, "fuelType": "petrol", "vehicleType": "car", "imageSrc": ""},
-      {"key": 3, "vehicleName": "Accord", "vehiclePrice": 27000, "fuelType": "petrol", "vehicleType": "car", "imageSrc": ""},
-      {"key": 4, "vehicleName": "Model 3", "vehiclePrice": 35000, "fuelType": "electric", "vehicleType": "car", "imageSrc": ""},
-      {"key": 5, "vehicleName": "Mustang", "vehiclePrice": 30000, "fuelType": "petrol", "vehicleType": "car", "imageSrc": ""},
-      {"key": 6, "vehicleName": "FZ6R", "vehiclePrice": 8000, "fuelType": "petrol", "vehicleType": "bike", "imageSrc": ""},
-      {"key": 7, "vehicleName": "LX 50", "vehiclePrice": 4000, "fuelType": "petrol", "vehicleType": "scooter", "imageSrc": ""},
-      {"key": 8, "vehicleName": "F-150", "vehiclePrice": 30000, "fuelType": "diesel", "vehicleType": "car", "imageSrc": ""},
-      {"key": 9, "vehicleName": "Ninja 400", "vehiclePrice": 10000, "fuelType": "petrol", "vehicleType": "bike", "imageSrc": ""},
-      {"key": 10, "vehicleName": "Elantra", "vehiclePrice": 22000, "fuelType": "petrol", "vehicleType": "car", "imageSrc": ""}
-    ]
-}
 
 const heading = {
     "key":0,
     "vehicleName":'Vehicle Name',
     "vehiclePrice":'Price',
     "vehicleType":'Vehicle Type',
-    "fuelType":'Fuel Type'
+    "fuelType":'Fuel Type',
+    "location":'Location'
 }
 
 function Dashboard(props){
-    let x = {0:false};
-    for(let i=0;i<data.data.length;i++)
-        x[data.data[i].key] = false;
 
-    const [rowSelected,setRowSelected] = useState(x);
-    const rowSelectHandler = (key)=>{
-        setRowSelected(rows=>{
-            const newState = {...rows};
-            if(key === 0){
-                const checked = !newState[key];
-                for(let key in rowSelected){
-                    newState[key] = checked;
-                }
-
-            }
-            else    newState[key] = !newState[key];
-            return newState;
-        });
+    const navigate = useNavigate();
+    const [isError,setError] = useState(false);
+    const [showSideBar,setShowSideBar] = useState(false);
+    const [tableData,setTableData] = useState([]);
+    const [option,setOption] = useState({'listVehicleOption':false,'bookingDetailOption':false});
+    const [rowSelected,setRowSelected] = useState({0:false});
+    
+    const prepareTable = (table)=>{
+        setTableData(table);
+        const newState = {0:false}
+        for(let i=0;i<table.length;i++)
+            newState[table[i].key] = false;
+        setRowSelected(newState);
     }
+
+    const listVehicles = ()=>{
+        setOption({'listVehicleOption':true,'bookingDetailOption':false});
+
+        fetch('http://localhost:8000/listVehicles')
+        .then(response=>response.json())
+        .then(data=>{
+            prepareTable(data);
+        })
+        .catch(error=>{
+            setError(true);
+        })
+    }
+
+    const bookedVehicles = (formData)=>{
+        setOption({'listVehicleOption':false,'bookingDetailOption':true});
+
+        const queryParams = new URLSearchParams(formData).toString();
+        fetch(`http://localhost:8000/bookedVehicles?${queryParams}`)
+        .then(response=>response.json())
+        .then(data=>{
+            prepareTable(data);
+        })
+        .catch(error=>{
+            setError(true);
+        })
+    }
+
+    const rowSelectHandler = (key)=>{
+        const newState = {...rowSelected};
+        if(key === 0){
+            const checked = !newState[0];
+            for(let key in newState)
+                newState[key] = checked;
+        }
+        else{
+            newState[key] = !newState[key];
+            let flag = true;
+            for(let key in newState){
+                if(parseInt(key) && !newState[key]){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag) newState[0] = true;
+            else newState[0] = false;
+        } 
+        setRowSelected(newState);
+    }
+
+    const searchHandler = data => {
+        prepareTable(data.vehicleData);
+    }
+
+    const checkRowSelection = ()=>{
+        for(let key in rowSelected){
+            if(rowSelected[key]) return true;
+        }
+        return false;
+    }
+
+    const deleteRowHandler = ()=>{
+        if(!checkRowSelection()) return;
+        const vehicleId = [];
+        for(let key in rowSelected){
+            if(rowSelected[key]) vehicleId.push(key);
+        }
+        fetch('http://localhost:8000/delete-vehicle',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(vehicleId)
+        })
+        .then(response=>{
+            if(!response.ok) throw new Error('network was not ok');
+        })
+        .catch(error=>{
+            setError(true);
+        })
+    }
+
+    const registerVehicle = ()=>{
+        navigate('/register-vehicle');   
+    }
+
     return(
         <div className = 'dashboard'>
-            <div className = 'sidebar'>
-
+            <div className = {showSideBar === true?'collapsed-sidebar':'sidebar'}>
+                <button className = 'show-sidebar' onClick = {()=>setShowSideBar(prevState=>!prevState)}>Show</button>
+                <div className = {showSideBar === true?'show-user':'user'}>
+                    <h2>Hi,</h2>
+                    <h2>User</h2>
+                </div>
+                <div className = {showSideBar === true?'show-functionality':'functionality'}>
+                    <button onClick = {listVehicles}>List Vehicles</button>
+                    <button onClick = {bookedVehicles}>Booking Details</button>
+                    <button onClick = {registerVehicle}>Register Vehicle</button>
+                </div>
             </div>
             <div className = 'content'>
+                {
+                    option.bookingDetailOption && 
+                    <SearchForm 
+                        searchURL = {'http://localhost:8000/specificBookedVehicles'} 
+                        onSearch = {searchHandler}
+                    />
+                }
                 <div className = 'table'>
                     <Row 
-                        key = {0}
+                        key = {'0'}
                         data = {heading}
                         value = {rowSelected[0]}
                         className = 'heading'
                         onSelection = {rowSelectHandler}
                     />
+                    <div className = 'result-rows'>
                     {
-                        data.data.map(element=>(
+                        tableData.map(element=>
                             <Row
                                 key = {element.key}
                                 data = {element}
@@ -67,8 +155,10 @@ function Dashboard(props){
                                 divClasses = {rowSelected[element.key] === true?'row-element':''}
                                 onSelection = {rowSelectHandler}
                             />
-                        ))
+                        )
                     }
+                    </div>
+                <button className = {checkRowSelection() === true?'row-delete-active':'row-delete-inactive'} onClick = {deleteRowHandler}> Delete </button>
                 </div>
             </div>
         </div>

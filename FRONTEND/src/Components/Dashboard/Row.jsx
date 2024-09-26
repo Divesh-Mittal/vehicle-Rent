@@ -1,7 +1,6 @@
 import './Row.css';
 function Row(props){
-    const classes = 'row'.concat(` ${props.className}`)
-
+    const classes = 'row'.concat(` ${props.className}`);
     const changeHandler = ()=>{
         props.onSelection(props.data.key);
     }
@@ -15,6 +14,7 @@ function Row(props){
             <div className = {'row-fuel-type'.concat(` ${props.divClasses}`)}>{props.data.fuelType}</div>
             <div className = {'row-vehicle-type'.concat(` ${props.divClasses}`)}>{props.data.vehicleType}</div>
             <div className = {'row-vehicle-price'.concat(` ${props.divClasses}`)}>{props.data.vehiclePrice}</div>
+            <div className = {'row-vehicle-location'.concat(` ${props.divClasses}`)}>{props.data.location}</div>
         </div>
     );
 }

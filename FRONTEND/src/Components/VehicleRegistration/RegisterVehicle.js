@@ -25,29 +25,45 @@ function RegisterVehicle(props){
                 return newState;
             })
         }
-        else setFile(value);
+        else
+            setFile(value);
         if(error === true) setError(false);
     }
 
     const submitHandler = event =>{
         event.preventDefault();
-        const formData = {
-            'vehicleName':vehicleName,
-            'vehicleType':vehicleType,
-            'fuelType':fuelType,
-            'Hour':price.hour,
-            'Weekly':price.week,
-            'Daily':price.day,
-            // 'price':price,
-            'file':file
-        }
+        // const formData = {
+        //     'vehicleName':vehicleName,
+        //     'vehicleType':vehicleType,
+        //     'fuelType':fuelType,
+        //     'Hour':price.hour,
+        //     'Weekly':price.week,
+        //     'Daily':price.day,
+        //     // 'price':price,
+        //     'file':file
+        // }
         
-        fetch('http://localhost:3000/api/v1/vehicles/create',{
-            method:"POST",
-            headers:{
-                'content-type':'multipart/form-data',
-                body:formData
-            }
+        // fetch('http://localhost:3000/api/v1/vehicles/create',{
+        //     method:"POST",
+        //     headers:{
+        //         'content-type':'multipart/form-data',
+        //         body:formData
+        //     }
+
+
+        const formData = new FormData(); 
+        formData.append('vehicleName',vehicleName);
+        formData.append('vehicleType',vehicleType);
+        formData.append('fuelType',fuelType);
+        formData.append('hour',price.hour);
+        formData.append('day',price.day);
+        formData.append('week',price.week);
+        formData.append('file',file)
+
+        fetch('http://localhost:8000/register-vehicle',{
+            method:'POST',
+            body:formData
+// >>>>>>> 0f602c6f1eb3666a6b248e8b41ce293b08813ff6
         })
         .then(response=>{
             if(!response.ok) throw new Error('network was not ok');
@@ -60,8 +76,6 @@ function RegisterVehicle(props){
             setError(true);
             // console.log(error);
         })
-
-
     }
     return(
         <div className = "register">
@@ -82,9 +96,9 @@ function RegisterVehicle(props){
                 />
                 <DropDown
                     id = 'vehicle-dropdown'
+                    data = {vehicleType}
                     name = 'vehicleType'
                     label = 'Vehicle Type'
-                    data = {vehicleType}
                     options = {vehicleTypeOptions}
                     className = 'vehicle'
                     defaultOption = 'Vehicle Type'
@@ -93,8 +107,8 @@ function RegisterVehicle(props){
                 <DropDown
                     id = 'fuel-dropdown'
                     name = 'fuelType'
-                    label = 'Fuel Type'
                     data = {fuelType}
+                    label = 'Fuel Type'
                     options = {fuelTypeOptions}
                     className = 'fuel'
                     defaultOption = 'Fuel Type'

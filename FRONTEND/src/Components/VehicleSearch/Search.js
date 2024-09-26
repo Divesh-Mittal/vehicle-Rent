@@ -28,7 +28,7 @@ function Search(props){
     
     return(
         <div className = 'search'>
-            <SearchForm onSearch = {searchHandler}/>
+            <SearchForm searchURL = {'http://localhost:8000/search'} onSearch = {searchHandler}/>
             <div className = 'search-filter-result'>
                 <div className = 'search-filter'>
                     <FilterForm searchFormData = {Object.keys(searchData).length>0?searchData:null} onFilter = {filterHandler}/>
@@ -40,7 +40,7 @@ function Search(props){
                             <Card 
                                 key = {element.key}
                                 data = {element}
-                                onBookRide = {book} //function to bookride
+                                onBookRide = {book}
                             />
                         ))
                         :

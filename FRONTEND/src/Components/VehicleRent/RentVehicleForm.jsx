@@ -3,35 +3,47 @@ import './RentVehicleForm.css';
 import Text from '../FormElements/Text';
 import Number from '../FormElements/Number'
 function VehicleRentForm(props){
+    const [isError,setError] = useState(false);
     const [name,setName] = useState('');
     const [phone,setPhone] = useState('');
     const [address,setAddress] = useState('');
     const [aadharNo,setAadharNo] = useState('');
+    const [cost,setCost] = useState(0);
+
+    console.log(props.bookingData);
 
     const inputChangeHandler = (identifier,value)=>{
         if(identifier === 'name') setName(value);
         else if(identifier === 'phone') setPhone(value);
         else if(identifier === 'address') setAddress(value);
         else setAadharNo(value);
+        if(isError === true) setError(false);
     }
 
-    const calculateCost = ()=>500;
+    const calculateCost = ()=>{
+        const queryParams = new URLSearchParams(props.bookingData);
+        fetch(`http://localhost:8000/calculate-cost?${queryParams}`)
+        .then(response => {
+            if(!response.ok) throw new Error("Ooops, something went wrong");
+            return response.json();
+        })
+        .then(data => {setCost(data.cost)})
+        .catch(error => {
+            setError(true);
+        })
+    }
 
     const submitHandler = event =>{
         event.preventDefault();
-        const cost = calculateCost();
         const data = {
-            'userCredentials':{
-                'name':name,
-                'phone':phone,
-                'address':address,
-                'aadharNo':aadharNo,
-            },
+            'name':name,
+            'phone':phone,
+            'address':address,
+            'aadharNo':aadharNo,
             'bookingInfo':props.bookingData.bookingInfo,
-            'vehicleData':props.bookingData.vehicleData,
+            'vehicleId':props.bookingData.vehicleData.key,
             'cost':cost
         }
-        console.log(data);
         fetch("http://localhost:8000/rent-vehicle",{
             method : 'POST',
             headers:{
@@ -41,18 +53,15 @@ function VehicleRentForm(props){
         })
         .then(response=>{
             if(!response.ok) throw new Error("Oops, something went wrong");
-            return response.json();
-        })
-        .then(data=>{
-            console.log(data);
         })
         .catch(error=>{
-            console.log(error);
+            setError(true);
         })
     }
 
     return(
         <div className = 'rent'>
+            {isError && <div style={{textAlign:'center',margin:'auto',marginBottom:'10px'}}>Ooops, something went wrong!</div>}
             <form onSubmit = {submitHandler}>
                 <Text
                     id = 'name'
@@ -90,7 +99,7 @@ function VehicleRentForm(props){
                     className = 'aadhar-no'
                     onNumberChange = {inputChangeHandler}
                 />
-                <h2>Total Cost :- {calculateCost()} </h2>
+                <h2>Total Cost :- {cost} </h2>
                 <button type = 'submit'>Rent</button>
             </form>
         </div>
